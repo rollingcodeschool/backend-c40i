@@ -1,4 +1,4 @@
-import { Schema, model } from 'mongoose';
+import { Schema, model } from "mongoose";
 
 const productoSchema = new Schema({
   nombreProducto: {
@@ -8,11 +8,21 @@ const productoSchema = new Schema({
     required: true,
     unique: true,
   },
+  // precio: {
+  //   type: Number,
+  //   min: 1,
+  //   max: 10000,
+  //   required: true,
+  // },
   precio: {
     type: Number,
-    min: 1,
-    max: 10000,
     required: true,
+    validate: {
+      validator: (value) => {
+        return value >= 1 && value <= 10000;
+      },
+      message: "El precio debe estar entre 1 y 10000",
+    },
   },
   imagen: {
     type: String,
@@ -24,6 +34,6 @@ const productoSchema = new Schema({
   },
 });
 
-const Producto = model('producto', productoSchema);
+const Producto = model("producto", productoSchema);
 
 export default Producto;
