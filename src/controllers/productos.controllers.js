@@ -26,6 +26,7 @@ export const obtenerProducto = async (req, res) => {
 
 export const crearProducto = async (req, res) => {
   try {
+    //todo: verificar validationResult
     // console.log(req.body);
     const productoNuevo = new Producto(req.body);
     await productoNuevo.save();
