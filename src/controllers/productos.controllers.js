@@ -12,6 +12,18 @@ export const obtenerProductos = async (req, res) => {
   }
 };
 
+export const obtenerProducto = async (req, res) => {
+  try {
+    const producto = await Producto.findById(req.params.id);
+    res.status(200).json(producto);
+  } catch (error) {
+    console.log(error);
+    res.status(404).json({
+      mensaje: "Error al busca el producto",
+    });
+  }
+};
+
 export const crearProducto = async (req, res) => {
   try {
     // console.log(req.body);
