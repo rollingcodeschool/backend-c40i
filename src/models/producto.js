@@ -14,16 +14,6 @@ const productoSchema = new Schema({
     max: 10000,
     required: true,
   },
-  // precio: {
-  //   type: Number,
-  //   required: true,
-  //   validate: {
-  //     validator: (value) => {
-  //       return value >= 1 && value <= 10000;
-  //     },
-  //     message: "El precio debe estar entre 1 y 10000",
-  //   },
-  // },
   imagen: {
     type: String,
     required: true,
