@@ -1,4 +1,5 @@
 import Usuario from "../models/usuario";
+import bcrypt from 'bcrypt';
 
 export const obtenerUsuarios = async(req,res) =>{
     try {
@@ -19,10 +20,21 @@ export const obtenerUnUsuario = async(req,res) =>{
 }
 export const crearUsuario = async(req,res) =>{
     try {
-       const nuevoUsuario = new Usuario(req.body)
-       await nuevoUsuario.save()
+        //verificar que si el mail ya existe 
+        let consultaUsuario = await Usuario.findOne({email: req.body.email});
+        //si el usuario existe
+        if(consultaUsuario){
+            return res.status(400).json({ mensaje: 'ya existe un usuario con el correo enviado'})
+        }
+
+       const nuevoUsuario = new Usuario(req.body);
+       //encriptar la contraseña
+       const salt = bcrypt.genSaltSync(10);
+       nuevoUsuario.password = bcrypt.hashSync(nuevoUsuario.password, salt); 
+       await nuevoUsuario.save();
        res.status(201).json({mensaje:"Se creo un nuevo usuario"})
     } catch (error) {
+        console.log(error)
         res.status(400).json(error.message)
     }
 }
