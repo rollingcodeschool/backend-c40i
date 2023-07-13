@@ -7,6 +7,7 @@ import {
   obtenerProductos,
 } from "../controllers/productos.controllers";
 import validarProducto from "../helpers/validarProducto";
+import validarJWT from "../helpers/token-verify";
 
 const router = Router();
 
@@ -17,11 +18,11 @@ const router = Router();
 router
   .route("/productos")
   .get(obtenerProductos)
-  .post(validarProducto, crearProducto);
+  .post([validarJWT,validarProducto], crearProducto);
 router
   .route("/productos/:id")
-  .delete(borrarProducto)
-  .put(validarProducto, editarProducto)
+  .delete(validarJWT,borrarProducto)
+  .put([validarJWT,validarProducto], editarProducto)
   .get(obtenerProducto);
 
 export default router;
